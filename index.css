@@ -1,0 +1,18 @@
+body {
+  font-family: Arial;
+  margin: 0;
+  background: #f5f5f5;
+}
+
+nav {
+  background: black;
+  color: white;
+  padding: 15px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+}
