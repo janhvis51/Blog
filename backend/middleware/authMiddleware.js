@@ -25,7 +25,7 @@ function verifyToken(
         const decoded =
             jwt.verify(
                 token,
-                "mysecretkey"
+                 process.env.JWT_SECRET
             );
 
         req.user =

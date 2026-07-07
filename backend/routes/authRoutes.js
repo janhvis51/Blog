@@ -106,7 +106,7 @@ router.post("/login", async (req, res) => {
                 user.name
         },
 
-        "mysecretkey"
+         process.env.JWT_SECRET
 
     );
 

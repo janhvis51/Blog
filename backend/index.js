@@ -1,4 +1,6 @@
+require("dotenv").config();
 // Import Express framework
+
 const express = require("express");
 
 // Import mongoose to connect with MongoDB
@@ -26,8 +28,8 @@ app.use("/auth", authRoutes);
 // -----------------------------
 // MongoDB Connection
 // -----------------------------
-
-mongoose.connect("mongodb://127.0.0.1:27017/blogdb")
+console.log(process.env.MONGO_URI);
+mongoose.connect(process.env.MONGO_URI)
 .then(() => {
     console.log("MongoDB Connected Successfully");
 })
