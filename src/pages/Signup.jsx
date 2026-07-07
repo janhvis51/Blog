@@ -21,7 +21,7 @@ function Signup() {
 
       const response =
         await axios.post(
-          "http://localhost:5000/auth/signup",
+          "http://https://blog-udlp.onrender.com/auth/signup",
           {
             name,
             email,

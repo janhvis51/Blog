@@ -1,11 +1,3 @@
-function logout() {
-
-  localStorage.removeItem("token");
-
-  window.location.reload();
-
-}
-
 function Navbar({
   searchBlog,
   setSearchBlog
@@ -30,7 +22,7 @@ function Navbar({
           )
         }
       />
-
+        
       {
         token && (
 
@@ -48,5 +40,11 @@ function Navbar({
   );
 
 }
+function logout() {
 
+  localStorage.removeItem("token");
+
+  window.location.reload();
+
+}
 export default Navbar;
