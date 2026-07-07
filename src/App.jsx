@@ -37,7 +37,7 @@ if (token) {
 
       const response =
         await axios.get(
-          "http://https://blog-udlp.onrender.com/blogs"
+          "https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs"
         );
 
       setBlogs(response.data);
@@ -81,7 +81,7 @@ if (token) {
 
      await axios.delete(
 
-    `http://https://blog-udlp.onrender.com/blogs/${id}`,
+    `https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/${id}`,
 
     {
         headers: {
