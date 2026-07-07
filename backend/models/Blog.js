@@ -1,9 +1,4 @@
-// Import mongoose
 const mongoose = require("mongoose");
-
-
-// Create Blog Schema
-// Schema tells MongoDB what one blog should look like.
 
 const blogSchema = new mongoose.Schema({
 
@@ -17,19 +12,18 @@ const blogSchema = new mongoose.Schema({
         required: true
     },
 
-    createdAt: {
-        type: Date,
-        default: Date.now
+    userId: {
+
+        type: mongoose.Schema.Types.ObjectId,
+
+        ref: "User"
+
     }
 
 });
 
-
-// Create Model
-
-const Blog = mongoose.model("Blog", blogSchema);
-
-
-// Export Model
-
-module.exports = Blog;
+module.exports =
+    mongoose.model(
+        "Blog",
+        blogSchema
+    );

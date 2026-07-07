@@ -1,46 +1,83 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
-function CreatePost({ onPublish }) {
+function CreatePost({ onPublish, editPost, setEditPost }) {
 
-    // Stores title typed by user
     const [title, setTitle] = useState("");
-
-    // Stores content typed by user
     const [content, setContent] = useState("");
 
-    // Runs when Publish button is clicked
+    useEffect(() => {
+
+        if (editPost) {
+
+            setTitle(editPost.title);
+            setContent(editPost.content);
+
+        }
+
+    }, [editPost]);
+
     async function publishBlog() {
 
-        try {
+    
 
-            const response = await axios.post(
-                "http://localhost:5000/blogs",
-                {
-                    title: title,
-                    content: content
-                }
-            );
+            if (editPost) {
 
-            console.log(response.data);
+                await axios.put(
 
-            alert("Blog Published Successfully!");
+    `http://localhost:5000/blogs/${editPost._id}`,
 
-            // Clear the form
+    {
+        title,
+        content
+    },
+
+    {
+        headers: {
+            authorization:
+                localStorage.getItem(
+                    "token"
+                )
+        }
+    }
+
+);
+                setEditPost(null);
+
+            } else {
+
+               await axios.post(
+
+    "http://localhost:5000/blogs",
+
+    {
+        title,
+        content
+    },
+
+    {
+        headers: {
+            authorization:
+                localStorage.getItem(
+                    "token"
+                )
+        }
+    }
+
+);
+
+            }
+
             setTitle("");
             setContent("");
 
             if (typeof onPublish === "function") {
+
                 onPublish();
+
             }
 
-        } catch (error) {
-
-            console.log(error);
-
-            alert("Something went wrong!");
-
-        }
+        
 
     }
 
@@ -48,8 +85,10 @@ function CreatePost({ onPublish }) {
 
         <div className="create-post">
 
-            <h2>Create Blog</h2>
-
+            <h2>
+                {editPost ? "Edit Blog" : "Create Blog"}
+            </h2>
+           {/* e stands for event */}
             <input
                 type="text"
                 placeholder="Enter Blog Title"
@@ -64,7 +103,7 @@ function CreatePost({ onPublish }) {
             />
 
             <button onClick={publishBlog}>
-                Publish
+                {editPost ? "Update Blog" : "Publish"}
             </button>
 
         </div>

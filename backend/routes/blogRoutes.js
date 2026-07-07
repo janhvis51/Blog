@@ -7,67 +7,198 @@ const router = express.Router();
 // Import Blog Model
 const Blog = require("../models/Blog");
 
-//---------------------------------------------------------
-// --------------------------------------------------------
+// Import JWT Middleware
+const verifyToken = require("../middleware/authMiddleware");
+
+console.log("BLOG ROUTES LOADED");
+
+// ------------------------------------------------------
 // GET ALL BLOGS
 // URL : http://localhost:5000/blogs
-//---------------------------------------------------------
-//---------------------------------------------------------
-console.log("BLOG ROUTES LOADED");
+// ------------------------------------------------------
+
 router.get("/", async (req, res) => {
 
-    
+    const blogs = await Blog.find();
 
-        // Fetch all blogs from MongoDB
-        const blogs = await Blog.find();
-
-        // Send blogs to frontend
-        res.json(blogs);
-
-    
- 
+    res.json(blogs);
 
 });
 
+// ------------------------------------------------------
+// GET SINGLE BLOG
+// URL : http://localhost:5000/blogs/:id
+// ------------------------------------------------------
+
+router.get("/:id", async (req, res) => {
+
+    const blog =
+        await Blog.findById(
+            req.params.id
+        );
+
+    res.json(blog);
+
+});
 
 // ------------------------------------------------------
-// CREATE NEW BLOG
+// CREATE BLOG
 // URL : http://localhost:5000/blogs
+// Protected Route
 // ------------------------------------------------------
 
-router.post("/", async (req, res) => {
+router.post(
+    "/",
+    verifyToken,
+    async (req, res) => {
 
-    const blog = await Blog.create(req.body);
+        const blog =
+            await Blog.create({
 
-    res.status(201).json(blog);
+                title:
+                    req.body.title,
 
-});
+                content:
+                    req.body.content,
 
+                userId:
+                    req.user.userId
 
+            });
+
+        res.status(201).json(blog);
+
+    }
+);
+// ------------------------------------------------------
+// UPDATE BLOG
+// URL : http://localhost:5000/blogs/:id
+// Protected Route
+// ------------------------------------------------------
+
+router.put(
+    "/:id",
+    verifyToken,
+    async (req, res) => {
+
+        try {
+
+            const blog =
+                await Blog.findById(
+                    req.params.id
+                );
+
+            if (
+
+                blog.userId.toString()
+
+                !==
+
+                req.user.userId
+
+            ) {
+
+                return res.status(403).json({
+
+                    message:
+                        "Not Authorized"
+
+                });
+
+            }
+
+            const updatedBlog =
+                await Blog.findByIdAndUpdate(
+
+                    req.params.id,
+
+                    req.body,
+
+                    {
+                        new: true
+                    }
+
+                );
+
+            res.json(updatedBlog);
+
+        }
+        catch (error) {
+
+            res.status(500).json({
+
+                message:
+                    error.message
+
+            });
+
+        }
+
+    }
+);
+
+// ------------------------------------------------------
 // DELETE BLOG
+// URL : http://localhost:5000/blogs/:id
+// Protected Route
+// ------------------------------------------------------
 
-router.delete("/:id", async (req, res) => {
-console.log("DELETE ROUTE HIT");
-    try {
+router.delete(
+    "/:id",
+    verifyToken,
+    async (req, res) => {
 
-        await Blog.findByIdAndDelete(req.params.id);
+        try {
 
-        res.json({
-            message: "Blog Deleted Successfully"
-        });
+            const blog =
+                await Blog.findById(
+                    req.params.id
+                );
+
+            if (
+
+                blog.userId.toString()
+
+                !==
+
+                req.user.userId
+
+            ) {
+
+                return res.status(403).json({
+
+                    message:
+                        "Not Authorized"
+
+                });
+
+            }
+
+            await Blog.findByIdAndDelete(
+                req.params.id
+            );
+
+            res.json({
+
+                message:
+                    "Blog Deleted Successfully"
+
+            });
+
+        }
+        catch (error) {
+
+            res.status(500).json({
+
+                message:
+                    error.message
+
+            });
+
+        }
 
     }
-    catch(error) {
-      
-        res.status(500).json({
-            message: error.message
-
-        
-        });
-
-    }
-
-});
+);
 
 // Export Router
 

@@ -3,46 +3,169 @@ import axios from "axios";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import CreatePost from "./pages/Createpost";
-
+import { Routes, Route } from "react-router-dom";
+import BlogDetails from "./pages/BlogDetails";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import { jwtDecode } from "jwt-decode";
 function App() {
+
+  const token = localStorage.getItem("token");
+
   const [blogs, setBlogs] = useState([]);
+  const [editPost, setEditPost] = useState(null);
+  const [searchBlog, setSearchBlog] = useState("");
 
   useEffect(() => {
     getBlogs();
   }, []);
 
+
+let currentUserId =  null;
+
+if (token) {
+
+    const decoded =
+        jwtDecode(token);
+
+    currentUserId =
+        decoded.userId;
+
+}
   async function getBlogs() {
     try {
-      const response = await axios.get("http://localhost:5000/blogs");
+
+      const response =
+        await axios.get(
+          "http://localhost:5000/blogs"
+        );
+
       setBlogs(response.data);
+
     } catch (error) {
+
       console.log(error);
-    }
-  }
-  async function deleteBlog(id) {
-    console.log("Attempting to delete blog with ID:", id);
-    try {
-      if (!id) {
-        console.log("deleteBlog called without id");
-        return;
-      }
 
-      await axios.delete(`http://localhost:5000/blogs/${id}`);
-      getBlogs();
-    } catch (error) {
-      console.log("Delete failed:", error);
-      alert("Unable to delete blog. Check the console for details.");
     }
   }
 
-  console.log("Blogs:", blogs);
-  return (
-    <>
-      <Navbar />
-      <Home blogs={blogs} onDelete={deleteBlog} />
-      <CreatePost onPublish={getBlogs} />
-    </>
+  const filteredBlogs = blogs.filter(
+
+    (blog) =>
+
+      blog.title
+        .toLowerCase()
+        .includes(
+          searchBlog.toLowerCase()
+        )
+
+      ||
+
+      blog.content
+        .toLowerCase()
+        .includes(
+          searchBlog.toLowerCase()
+        )
+
   );
+
+  function editBlog(blog) {
+
+    setEditPost(blog);
+
+  }
+
+  async function deleteBlog(id) {
+
+    try {
+
+     await axios.delete(
+
+    `http://localhost:5000/blogs/${id}`,
+
+    {
+        headers: {
+            authorization:
+                localStorage.getItem(
+                    "token"
+                )
+        }
+    }
+
+);
+      getBlogs();
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+
+  }
+
+  return (
+
+    <Routes>
+
+      <Route
+        path="/signup"
+        element={<Signup />}
+      />
+
+      <Route
+        path="/login"
+        element={<Login />}
+      />
+
+      <Route
+        path="/blogs/:id"
+        element={<BlogDetails />}
+      />
+
+      <Route
+        path="/"
+        element={
+          <>
+
+            <Navbar
+              searchBlog={searchBlog}
+              setSearchBlog={setSearchBlog}
+            />
+
+            <Home
+              blogs={filteredBlogs}
+              onDelete={deleteBlog}
+              onEdit={editBlog}
+               currentUserId={currentUserId}
+            />
+
+            {
+              token ? (
+
+                <CreatePost
+                  onPublish={getBlogs}
+                  editPost={editPost}
+                  setEditPost={setEditPost}
+                  
+                />
+
+              ) : (
+
+                <h3>
+                  Please Login To Create Blogs
+                </h3>
+
+              )
+            }
+
+          </>
+        }
+      />
+
+    </Routes>
+
+  );
+
 }
 
 export default App;

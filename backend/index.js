@@ -9,6 +9,7 @@ const cors = require("cors");
 
 // Import all blog routes
 const blogRoutes = require("./routes/blogRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 // Create Express application
 const app = express();
@@ -21,7 +22,7 @@ app.use(cors());
 // Converts JSON received from frontend into JavaScript object
 app.use(express.json());
 
-
+app.use("/auth", authRoutes);
 // -----------------------------
 // MongoDB Connection
 // -----------------------------
@@ -58,15 +59,7 @@ app.use("/blogs", blogRoutes);
 // -----------------------------
 console.log("INDEX FILE RUNNING");
 
-app.delete("/check", (req, res) => {
 
-    console.log("DELETE CHECK HIT");
-
-    res.json({
-        message: "DELETE WORKS"
-    });
-
-});
 app.listen(5000, ()=>{
 
     console.log("Server Running On Port 5000");
