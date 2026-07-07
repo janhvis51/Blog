@@ -25,7 +25,7 @@ function CreatePost({ onPublish, editPost, setEditPost }) {
 
                 await axios.put(
 
-    `https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/${editPost._id}`,
+    `https://blog-udlp.onrender.com/blogs/${editPost._id}`,
 
     {
         title,
@@ -48,7 +48,7 @@ function CreatePost({ onPublish, editPost, setEditPost }) {
 
                await axios.post(
 
-    "https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs",
+    "https://blog-udlp.onrender.com/blogs",
 
     {
         title,

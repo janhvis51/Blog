@@ -14,7 +14,7 @@ console.log("BLOG ROUTES LOADED");
 
 // ------------------------------------------------------
 // GET ALL BLOGS
-// URL : https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs
+// URL : https://blog-udlp.onrender.comog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs
 // ------------------------------------------------------
 
 router.get("/", async (req, res) => {
@@ -27,7 +27,7 @@ router.get("/", async (req, res) => {
 
 // ------------------------------------------------------
 // GET SINGLE BLOG
-// URL : https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/:id
+// URL : https://blog-udlp.onrender.comog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/:id
 // ------------------------------------------------------
 
 router.get("/:id", async (req, res) => {
@@ -43,7 +43,7 @@ router.get("/:id", async (req, res) => {
 
 // ------------------------------------------------------
 // CREATE BLOG
-// URL : https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs
+// URL : https://blog-udlp.onrender.comog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs
 // Protected Route
 // ------------------------------------------------------
 
@@ -72,7 +72,7 @@ router.post(
 );
 // ------------------------------------------------------
 // UPDATE BLOG
-// URL : https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/:id
+// URL : https://blog-udlp.onrender.comog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/:id
 // Protected Route
 // ------------------------------------------------------
 
@@ -139,7 +139,7 @@ router.put(
 
 // ------------------------------------------------------
 // DELETE BLOG
-// URL : https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/:id
+// URL : https://blog-udlp.onrender.comog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/:id
 // Protected Route
 // ------------------------------------------------------
 

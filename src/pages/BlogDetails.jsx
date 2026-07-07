@@ -20,7 +20,7 @@ function BlogDetails() {
 
             const response =
                 await axios.get(
-                    `https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/blogs/${id}`
+                    `https://blog-udlp.onrender.com/blogs/${id}`
                 );
 
             setBlog(response.data);

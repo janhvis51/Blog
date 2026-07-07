@@ -18,7 +18,7 @@ function Login() {
 
       const response =
         await axios.post(
-          "https://blog-udlp.onrender.com/blogs://blog-udlp.onrender.com/auth/login",
+          "https://blog-udlp.onrender.com/auth/login",
           {
             email,
             password
